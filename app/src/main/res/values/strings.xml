@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">OnlineShopping</string>
+    <string name="sign_in">ورود به حساب کاربری</string>
+    <string name="sign_up">ایجاد حساب کاربری</string>
+    <string name="username">نام کاربری</string>
+    <string name="password">رمزعبور</string>
+    <string name="email">ایمیل</string>
+</resources>
