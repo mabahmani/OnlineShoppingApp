@@ -4,10 +4,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.mab.onlineshopping.Data.GetProductsController;
+import com.mab.onlineshopping.Data.OnlineShoppingApi;
+import com.mab.onlineshopping.Data.UserPreferencesManager;
+import com.mab.onlineshopping.Model.Product;
+import com.mab.onlineshopping.Model.ProductsResponse;
+
+import java.util.List;
 
 public class ProductsActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
+    private List<Product> products;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,5 +34,19 @@ public class ProductsActivity extends AppCompatActivity {
             }
         });
 
+        OnlineShoppingApi.GetProductsCallBack getProductsCallBack = new OnlineShoppingApi.GetProductsCallBack() {
+            @Override
+            public void onResponse(ProductsResponse productsResponse) {
+                products = productsResponse.getProducts();
+            }
+
+            @Override
+            public void onFailure(String cause) {
+                Toast.makeText(getApplicationContext(),cause,Toast.LENGTH_LONG).show();
+            }
+        };
+
+        GetProductsController getProductsController = new GetProductsController(getProductsCallBack);
+        getProductsController.start("bearer " + UserPreferencesManager.getInstance(getApplicationContext()).getAccessToken());
     }
 }
