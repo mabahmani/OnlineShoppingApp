@@ -2,9 +2,11 @@ package com.mab.onlineshopping;
 
 import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
@@ -14,6 +16,7 @@ import com.mab.onlineshopping.Data.UserPreferencesManager;
 import com.mab.onlineshopping.Model.TokenResponse;
 
 public class SignInActivity extends AppCompatActivity {
+    private Toolbar toolbar;
     private TextInputEditText username;
     private TextInputEditText password;
     private AppCompatButton signIn;
@@ -25,6 +28,12 @@ public class SignInActivity extends AppCompatActivity {
 
         findViews();
 
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -40,8 +49,10 @@ public class SignInActivity extends AppCompatActivity {
                 if(successful){
                     UserPreferencesManager.getInstance(getApplicationContext()).putAccessToken(tokenResponse.getAccessToken());
                     UserPreferencesManager.getInstance(getApplicationContext()).putUsername(username.getText().toString());
-                    Intent i = new Intent(SignInActivity.this,ProductsActivity.class);
-                    startActivity(i);
+                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(
+                            new Intent("login")
+                    );
+                    finish();
                 }
             }
 
@@ -59,5 +70,6 @@ public class SignInActivity extends AppCompatActivity {
         username = findViewById(R.id.username_et);
         password = findViewById(R.id.password_et);
         signIn = findViewById(R.id.sign_in_button);
+        toolbar = findViewById(R.id.toolbar);
     }
 }

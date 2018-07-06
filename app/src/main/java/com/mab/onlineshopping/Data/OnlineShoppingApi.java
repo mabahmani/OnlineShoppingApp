@@ -1,8 +1,11 @@
 package com.mab.onlineshopping.Data;
 
 import com.mab.onlineshopping.Model.TokenResponse;
+import com.mab.onlineshopping.Model.User;
+import com.mab.onlineshopping.Model.UserResponse;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Headers;
@@ -20,8 +23,18 @@ public interface OnlineShoppingApi {
             @Field("username") String username,
             @Field("password") String password);
 
+    @Headers("X-Backtory-Authentication-Id:5a154d2fe4b03ffa0436a534")
+    @POST("auth/users")
+    Call<UserResponse> userRegister(@Body User user);
+
+
     interface LoginUserCallBack{
         void onResponse(boolean successful, String errorDescription, TokenResponse tokenResponse );
+        void onFailure(String cause);
+    }
+
+    interface RegisterUserCallBack{
+        void onResponse(boolean successful, String errorDescription, UserResponse userResponse );
         void onFailure(String cause);
     }
 
