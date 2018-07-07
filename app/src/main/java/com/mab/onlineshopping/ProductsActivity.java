@@ -1,19 +1,24 @@
 package com.mab.onlineshopping;
 
+import android.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.mab.onlineshopping.Data.GetProductsController;
 import com.mab.onlineshopping.Data.OnlineShoppingApi;
 import com.mab.onlineshopping.Data.UserPreferencesManager;
 import com.mab.onlineshopping.Model.Product;
+import com.mab.onlineshopping.Model.ProductId;
 import com.mab.onlineshopping.Model.ProductsAdapter;
 import com.mab.onlineshopping.Model.ProductsResponse;
+import com.mab.onlineshopping.Model.RecyclerTouchListener;
 
 import java.util.List;
 
@@ -55,8 +60,38 @@ public class ProductsActivity extends AppCompatActivity {
         getProductsController.start("bearer " + UserPreferencesManager.getInstance(getApplicationContext()).getAccessToken());
     }
 
-    private void initialProductsList(ProductsResponse productsResponse) {
+    private void initialProductsList(final ProductsResponse productsResponse) {
         productsAdapter = new ProductsAdapter(productsResponse.getProducts());
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+
+                ProductId productId = new ProductId();
+                productId.setId(productsResponse.getProducts().get(position).getId());
+
+                Gson gson = new Gson();
+                String productIdToJson = gson.toJson(productId);
+
+
+                Bundle bundle = new Bundle();
+                bundle.putString("productId",productIdToJson);
+                bundle.putString("accessToken", UserPreferencesManager.getInstance(getApplicationContext()).getAccessToken());
+
+                ProductSingleFragment productSingleFragment = new ProductSingleFragment();
+                productSingleFragment.setArguments(bundle);
+
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame,productSingleFragment,null)
+                        .addToBackStack(null)
+                        .commit();
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(productsAdapter);
     }

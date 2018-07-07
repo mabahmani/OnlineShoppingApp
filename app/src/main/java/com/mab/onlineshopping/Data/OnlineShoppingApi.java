@@ -1,5 +1,7 @@
 package com.mab.onlineshopping.Data;
 
+import com.mab.onlineshopping.Model.Product;
+import com.mab.onlineshopping.Model.ProductId;
 import com.mab.onlineshopping.Model.ProductsResponse;
 import com.mab.onlineshopping.Model.TokenResponse;
 import com.mab.onlineshopping.Model.User;
@@ -38,6 +40,14 @@ public interface OnlineShoppingApi {
     );
 
 
+    @Headers("X-Backtory-Object-Storage-Id:5a154d2fe4b03ffa0436a535")
+    @POST("object-storage/classes/query/Product")
+    Call<ProductsResponse> getProductInfo(
+            @Header("Authorization") String accessToken,
+            @Body ProductId productId
+            );
+
+
     interface LoginUserCallBack{
         void onResponse(boolean successful, String errorDescription, TokenResponse tokenResponse );
         void onFailure(String cause);
@@ -52,5 +62,11 @@ public interface OnlineShoppingApi {
         void onResponse(ProductsResponse productsResponse);
         void onFailure(String cause);
     }
+
+    interface GetProductInfoCallBack{
+        void onResponse(ProductsResponse productsResponse);
+        void onFailure(String cause);
+    }
+
 
 }
