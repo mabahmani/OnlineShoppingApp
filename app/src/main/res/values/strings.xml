@@ -6,4 +6,5 @@
     <string name="password">رمزعبور</string>
     <string name="email">ایمیل</string>
     <string name="toman">تومان</string>
+    <string name="product_img">تصویر محصول</string>
 </resources>

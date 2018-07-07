@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.mab.onlineshopping.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> {
@@ -35,7 +36,9 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
         holder.rateCount.setText(String.valueOf(product.getRatingCount()));
         holder.productTitle.setText(product.getName());
         holder.productDesc.setText(product.getDescription());
-        holder.productPrice.setText(String.valueOf(product.getPrice()));
+        DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
+        String decimalFormatPrice = decimalFormat.format(product.getPrice());
+        holder.productPrice.setText(decimalFormatPrice);
     }
 
     @Override
