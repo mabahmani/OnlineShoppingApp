@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#ffffff"
     android:layout_margin="10dp"
-    android:layout_height="256dp">
+    android:layout_height="128dp">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/right_part"
@@ -22,20 +22,37 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintDimensionRatio="1:1"
-            android:background="#aa5588"
+            app:layout_constraintBottom_toTopOf="@+id/rating"
+            app:layout_constraintDimensionRatio="4:3"
             android:layout_height="0dp" />
 
-        <TextView
+        <LinearLayout
+            android:id="@+id/rating"
+            android:orientation="horizontal"
             android:layout_width="0dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/product_img"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:background="#ff0088"
-            android:layout_marginTop="10dp"
-            app:layout_constraintDimensionRatio="6:2"
-            android:layout_height="0dp" />
+            android:layout_marginTop="5dp"
+            android:layout_height="0dp" >
+            <TextView
+                android:id="@+id/rate"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:drawableEnd="@drawable/ic_star_black_24dp"
+                android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/rate_count"
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:drawableEnd="@drawable/ic_supervisor_account_black_24dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
 
     </android.support.constraint.ConstraintLayout>
 
@@ -55,7 +72,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/product_desc"
-            android:background="#00ee00"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:layout_height="0dp">
 
         </TextView>
@@ -68,8 +86,9 @@
             app:layout_constraintTop_toBottomOf="@+id/product_title"
             app:layout_constraintBottom_toTopOf="@id/product_line"
             android:layout_marginTop="5dp"
-            android:background="#0000ee"
-            android:layout_height="128dp">
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:layout_height="64dp">
 
         </TextView>
         <android.support.constraint.ConstraintLayout
@@ -78,7 +97,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/product_desc"
-            app:layout_constraintBottom_toTopOf="@id/product_price"
+            app:layout_constraintBottom_toTopOf="@id/price"
             android:background="#eeeeee"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
@@ -86,17 +105,30 @@
 
         </android.support.constraint.ConstraintLayout>
 
-        <TextView
-            android:id="@+id/product_price"
+        <LinearLayout
+            android:id="@+id/price"
+            android:orientation="horizontal"
             android:layout_width="0dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/product_line"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:background="#00eeee"
             android:layout_height="0dp">
 
-        </TextView>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:paddingLeft="5dp"
+                android:text="@string/toman"
+                android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/product_price"
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
 
 
     </android.support.constraint.ConstraintLayout>
