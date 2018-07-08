@@ -1,5 +1,7 @@
 package com.mab.onlineshopping.Data;
 
+import com.mab.onlineshopping.Model.AddProduct;
+import com.mab.onlineshopping.Model.AddToCartResponse;
 import com.mab.onlineshopping.Model.Product;
 import com.mab.onlineshopping.Model.ProductId;
 import com.mab.onlineshopping.Model.ProductsResponse;
@@ -48,6 +50,14 @@ public interface OnlineShoppingApi {
             );
 
 
+    @Headers("X-Backtory-Object-Storage-Id:5a154d2fe4b03ffa0436a535")
+    @POST("object-storage/classes/Basket")
+    Call<AddToCartResponse> addProductToCart(
+            @Header("Authorization") String accessToken,
+            @Body AddProduct addProduct
+            );
+
+
     interface LoginUserCallBack{
         void onResponse(boolean successful, String errorDescription, TokenResponse tokenResponse );
         void onFailure(String cause);
@@ -68,5 +78,8 @@ public interface OnlineShoppingApi {
         void onFailure(String cause);
     }
 
-
+    interface AddProductToCartCallBack{
+        void onResponse(AddToCartResponse addToCartResponse);
+        void onFailure(String cause);
+    }
 }

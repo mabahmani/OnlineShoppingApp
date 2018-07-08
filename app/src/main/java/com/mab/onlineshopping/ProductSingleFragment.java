@@ -3,20 +3,28 @@ package com.mab.onlineshopping;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.mab.onlineshopping.Data.AddProductToCartController;
 import com.mab.onlineshopping.Data.GetProductInfoController;
 import com.mab.onlineshopping.Data.OnlineShoppingApi;
+import com.mab.onlineshopping.Data.UserPreferencesManager;
+import com.mab.onlineshopping.Model.AddProduct;
+import com.mab.onlineshopping.Model.AddToCartResponse;
 import com.mab.onlineshopping.Model.Product;
 import com.mab.onlineshopping.Model.ProductId;
 import com.mab.onlineshopping.Model.ProductsResponse;
 import com.squareup.picasso.Picasso;
+
+import java.text.DecimalFormat;
 
 public class ProductSingleFragment extends Fragment {
 
@@ -43,6 +51,17 @@ public class ProductSingleFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         findViews(view);
+
+        final Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_forward_black_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+                toolbar.setNavigationIcon(null);
+            }
+        });
+
         OnlineShoppingApi.GetProductInfoCallBack getProductInfoCallBack = new OnlineShoppingApi.GetProductInfoCallBack() {
             @Override
             public void onResponse(ProductsResponse productsResponse) {
@@ -57,12 +76,39 @@ public class ProductSingleFragment extends Fragment {
 
         GetProductInfoController getProductInfoController = new GetProductInfoController(getProductInfoCallBack);
         getProductInfoController.start(accessToken,productId);
+
+
+        addToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                OnlineShoppingApi.AddProductToCartCallBack addProductToCartCallBack = new OnlineShoppingApi.AddProductToCartCallBack() {
+                    @Override
+                    public void onResponse(AddToCartResponse addToCartResponse) {
+                        Toast.makeText(getActivity(),"محصول با موفقیت به سبد اضافه شد!",Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onFailure(String cause) {
+
+                    }
+                };
+
+                AddProduct addProduct = new AddProduct();
+                addProduct.setCount(1);
+                addProduct.setProductId(productId.getId());
+                addProduct.setUsername(UserPreferencesManager.getInstance(getActivity()).getUsername());
+                AddProductToCartController addProductToCartController = new AddProductToCartController(addProductToCartCallBack);
+                addProductToCartController.start(accessToken,addProduct);
+            }
+        });
     }
 
     private void bindViews(Product product) {
         Picasso.get().load(product.getPhotoUrl()).into(productImg);
         productTitle.setText(product.getName());
-        productPrice.setText(String.valueOf(product.getPrice()));
+        DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
+        String formattedPrice = decimalFormat.format(product.getPrice());
+        productPrice.setText(formattedPrice);
         productDesc.setText(product.getDescription());
     }
 
