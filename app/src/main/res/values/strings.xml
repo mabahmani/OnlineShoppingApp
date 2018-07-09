@@ -8,4 +8,5 @@
     <string name="toman">تومان</string>
     <string name="product_img">تصویر محصول</string>
     <string name="add_to_cart">اضافه کردن به سبد خرید</string>
+    <string name="count">تعداد</string>
 </resources>

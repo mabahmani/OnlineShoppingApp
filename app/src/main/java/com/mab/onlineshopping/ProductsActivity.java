@@ -1,8 +1,7 @@
 package com.mab.onlineshopping;
 
-import android.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -14,13 +13,10 @@ import com.google.gson.Gson;
 import com.mab.onlineshopping.Data.GetProductsController;
 import com.mab.onlineshopping.Data.OnlineShoppingApi;
 import com.mab.onlineshopping.Data.UserPreferencesManager;
-import com.mab.onlineshopping.Model.Product;
 import com.mab.onlineshopping.Model.ProductId;
 import com.mab.onlineshopping.Model.ProductsAdapter;
 import com.mab.onlineshopping.Model.ProductsResponse;
 import com.mab.onlineshopping.Model.RecyclerTouchListener;
-
-import java.util.List;
 
 public class ProductsActivity extends AppCompatActivity {
 

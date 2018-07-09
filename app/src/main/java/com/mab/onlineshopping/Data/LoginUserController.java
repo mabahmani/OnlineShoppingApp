@@ -35,7 +35,7 @@ public class LoginUserController {
 
             @Override
             public void onFailure(@NonNull Call<TokenResponse> call, @NonNull Throwable t) {
-                loginUserCallBack.onFailure(t.getCause().toString());
+                loginUserCallBack.onFailure(t.toString());
             }
         });
     }

@@ -87,7 +87,7 @@
             android:fontFamily="@font/yekan"
             android:textSize="18sp"
             android:textColor="#eeeeee"
-            android:drawableEnd="@drawable/ic_shopping_basket_black_24dp"
+            android:drawableEnd="@drawable/ic_add_shopping_cart_black_24dp"
             android:background="#4CAF50"
             android:paddingRight="20dp"
             android:layout_height="0dp" />
