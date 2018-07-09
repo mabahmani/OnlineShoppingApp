@@ -3,7 +3,8 @@ package com.mab.onlineshopping.Data;
 import com.mab.onlineshopping.Model.AddProduct;
 import com.mab.onlineshopping.Model.AddToCartResponse;
 import com.mab.onlineshopping.Model.CartProductsResponse;
-import com.mab.onlineshopping.Model.Product;
+import com.mab.onlineshopping.Model.ChangeProductCountResponse;
+import com.mab.onlineshopping.Model.ProductCount;
 import com.mab.onlineshopping.Model.ProductId;
 import com.mab.onlineshopping.Model.ProductsResponse;
 import com.mab.onlineshopping.Model.TokenResponse;
@@ -18,9 +19,12 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Url;
 
 public interface OnlineShoppingApi {
     String BASE_URL = "https://api.backtory.com/";
+    String itemInCartId = null;
 
     @Headers({
             "X-Backtory-Authentication-Id:5a154d2fe4b03ffa0436a534",
@@ -68,6 +72,14 @@ public interface OnlineShoppingApi {
             );
 
 
+    @Headers("X-Backtory-Object-Storage-Id:5a154d2fe4b03ffa0436a535")
+    @PUT
+    Call<ChangeProductCountResponse> changeProductsCount(
+            @Url String url,
+            @Header("Authorization") String accessToken,
+            @Body ProductCount productCount
+            );
+
 
     interface LoginUserCallBack{
         void onResponse(boolean successful, String errorDescription, TokenResponse tokenResponse );
@@ -96,6 +108,11 @@ public interface OnlineShoppingApi {
 
     interface GetCartProductsCallBack{
         void onResponse(CartProductsResponse cartProductsResponse);
+        void onFailure(String cause);
+    }
+
+    interface ChangeProductCountCallBack{
+        void onResponse(ChangeProductCountResponse changeProductCountResponse);
         void onFailure(String cause);
     }
 }

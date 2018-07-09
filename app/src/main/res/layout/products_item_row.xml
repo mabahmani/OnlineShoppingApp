@@ -43,6 +43,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:fontFamily="@font/yekan"
+                android:textColor="#42A5F5"
                 android:drawableEnd="@drawable/ic_star_black_24dp"
                 android:layout_height="match_parent" />
             <TextView
@@ -52,6 +53,7 @@
                 android:drawableEnd="@drawable/ic_supervisor_account_black_24dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/yekan"
+                android:textColor="#42A5F5"
                 android:layout_height="match_parent" />
 
         </LinearLayout>

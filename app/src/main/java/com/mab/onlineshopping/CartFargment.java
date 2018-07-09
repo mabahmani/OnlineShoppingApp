@@ -57,6 +57,7 @@ public class CartFargment extends Fragment {
                             cartItem.setPhotoUrl(productsResponse.getProducts().get(0).getPhotoUrl());
                             cartItem.setPrice(productsResponse.getProducts().get(0).getPrice());
                             cartItem.setCount(cartProduct.getCount());
+                            cartItem.setCartItemId(cartProduct.getId());
                             cartItemList.add(cartItem);
                             cartProductsAdapter.notifyDataSetChanged();
                         }
@@ -94,7 +95,9 @@ public class CartFargment extends Fragment {
     }
 
     private void initialCartList() {
-        cartProductsAdapter = new CartProductsAdapter(cartItemList);
+        cartProductsAdapter = new CartProductsAdapter(
+                cartItemList,
+                "bearer " + UserPreferencesManager.getInstance(getActivity()).getAccessToken());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(cartProductsAdapter);
     }

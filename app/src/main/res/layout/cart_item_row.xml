@@ -45,12 +45,14 @@
                 android:layout_weight="1"
                 android:layout_height="match_parent">
                 <ImageView
+                    android:id="@+id/remove"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:src="@drawable/ic_remove_black_24dp"
                     android:layout_height="match_parent"
                     tools:ignore="NestedWeights" />
                 <ImageView
+                    android:id="@+id/add"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:src="@drawable/ic_add_black_24dp"
@@ -68,12 +70,16 @@
                     android:layout_width="0dp"
                     android:layout_weight="0.8"
                     android:gravity="center"
+                    android:fontFamily="@font/yekan"
+                    android:textColor="#03A9F4"
                     android:layout_height="match_parent"
                     tools:ignore="NestedWeights" />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_weight="0.8"
+                    android:paddingRight="3dp"
                     android:gravity="center"
+                    android:fontFamily="@font/yekan"
                     android:text="@string/count"
                     android:layout_height="match_parent" />
 

@@ -86,7 +86,7 @@
             android:text="@string/add_to_cart"
             android:fontFamily="@font/yekan"
             android:textSize="18sp"
-            android:textColor="#eeeeee"
+            android:textColor="#ECEFF1"
             android:drawableEnd="@drawable/ic_add_shopping_cart_black_24dp"
             android:background="#4CAF50"
             android:paddingRight="20dp"
