@@ -2,12 +2,14 @@ package com.mab.onlineshopping.Data;
 
 import com.mab.onlineshopping.Model.AddProduct;
 import com.mab.onlineshopping.Model.AddToCartResponse;
+import com.mab.onlineshopping.Model.CartProductsResponse;
 import com.mab.onlineshopping.Model.Product;
 import com.mab.onlineshopping.Model.ProductId;
 import com.mab.onlineshopping.Model.ProductsResponse;
 import com.mab.onlineshopping.Model.TokenResponse;
 import com.mab.onlineshopping.Model.User;
 import com.mab.onlineshopping.Model.UserResponse;
+import com.mab.onlineshopping.Model.UserUsername;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -55,7 +57,16 @@ public interface OnlineShoppingApi {
     Call<AddToCartResponse> addProductToCart(
             @Header("Authorization") String accessToken,
             @Body AddProduct addProduct
+    );
+
+
+    @Headers("X-Backtory-Object-Storage-Id:5a154d2fe4b03ffa0436a535")
+    @POST("object-storage/classes/query/Basket")
+    Call<CartProductsResponse> getCartProducts(
+            @Header("Authorization") String accessToken,
+            @Body UserUsername userUsername
             );
+
 
 
     interface LoginUserCallBack{
@@ -80,6 +91,11 @@ public interface OnlineShoppingApi {
 
     interface AddProductToCartCallBack{
         void onResponse(AddToCartResponse addToCartResponse);
+        void onFailure(String cause);
+    }
+
+    interface GetCartProductsCallBack{
+        void onResponse(CartProductsResponse cartProductsResponse);
         void onFailure(String cause);
     }
 }

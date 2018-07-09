@@ -40,6 +40,12 @@ public class ProductsActivity extends AppCompatActivity {
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.shopping_cart){
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.frame,new CartFargment(),null)
+                            .addToBackStack(null)
+                            .commit();
+                 }
                 return false;
             }
         });
