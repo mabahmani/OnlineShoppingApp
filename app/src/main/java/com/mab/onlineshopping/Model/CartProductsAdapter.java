@@ -1,5 +1,8 @@
 package com.mab.onlineshopping.Model;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +12,7 @@ import android.widget.TextView;
 
 import com.mab.onlineshopping.Data.ChangeProductCountController;
 import com.mab.onlineshopping.Data.OnlineShoppingApi;
+import com.mab.onlineshopping.Data.UserPreferencesManager;
 import com.mab.onlineshopping.R;
 import com.squareup.picasso.Picasso;
 
@@ -18,11 +22,11 @@ import java.util.List;
 public class CartProductsAdapter extends RecyclerView.Adapter<CartProductsAdapter.ViewHolder> {
 
     private List<CartItem> cartItemList;
-    private String accessToken;
+    private Context context;
 
-    public CartProductsAdapter(List<CartItem> cartItemList,String accessToken) {
+    public CartProductsAdapter(List<CartItem> cartItemList,Context context) {
         this.cartItemList = cartItemList;
-        this.accessToken = accessToken;
+        this.context = context;
     }
 
     @Override
@@ -63,31 +67,51 @@ public class CartProductsAdapter extends RecyclerView.Adapter<CartProductsAdapte
                 ProductCount productCount = new ProductCount();
                 productCount.setCount(product.getCount() + 1);
                 ChangeProductCountController changeProductCountController = new ChangeProductCountController(changeProductCountCallBack);
-                changeProductCountController.start(url, accessToken, productCount);
+                changeProductCountController.start(url, "bearer " + UserPreferencesManager.getInstance(context).getAccessToken(), productCount);
             }
         });
         holder.removeProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                OnlineShoppingApi.ChangeProductCountCallBack changeProductCountCallBack = new OnlineShoppingApi.ChangeProductCountCallBack() {
-                    @Override
-                    public void onResponse(ChangeProductCountResponse changeProductCountResponse) {
-                        product.setCount(product.getCount() - 1);
-                        holder.productCount.setText(String.valueOf(product.getCount()));
-                        decimalFormatPrice[0] = decimalFormat.format(product.getPrice() * product.getCount());
-                        holder.productPrice.setText(decimalFormatPrice[0]);
-                    }
+                if (product.getCount() == 1) {
+                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            switch (i){
+                                case DialogInterface.BUTTON_POSITIVE:
+                                    break;
+                                case DialogInterface.BUTTON_NEGATIVE:
+                                    break;
+                            }
+                        }
+                    };
 
-                    @Override
-                    public void onFailure(String cause) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage("این ایتم حذف شود؟")
+                            .setPositiveButton("اره",dialogClickListener)
+                            .setNegativeButton("بی خیال",dialogClickListener).show();
+                }
+                else {
+                    OnlineShoppingApi.ChangeProductCountCallBack changeProductCountCallBack = new OnlineShoppingApi.ChangeProductCountCallBack() {
+                        @Override
+                        public void onResponse(ChangeProductCountResponse changeProductCountResponse) {
+                            product.setCount(product.getCount() - 1);
+                            holder.productCount.setText(String.valueOf(product.getCount()));
+                            decimalFormatPrice[0] = decimalFormat.format(product.getPrice() * product.getCount());
+                            holder.productPrice.setText(decimalFormatPrice[0]);
+                        }
 
-                    }
-                };
-                String url = "https://api.backtory.com/object-storage/classes/Basket/"+product.getCartItemId();
-                ProductCount productCount = new ProductCount();
-                productCount.setCount(product.getCount() - 1);
-                ChangeProductCountController changeProductCountController = new ChangeProductCountController(changeProductCountCallBack);
-                changeProductCountController.start(url, accessToken, productCount);
+                        @Override
+                        public void onFailure(String cause) {
+
+                        }
+                    };
+                    String url = "https://api.backtory.com/object-storage/classes/Basket/" + product.getCartItemId();
+                    ProductCount productCount = new ProductCount();
+                    productCount.setCount(product.getCount() - 1);
+                    ChangeProductCountController changeProductCountController = new ChangeProductCountController(changeProductCountCallBack);
+                    changeProductCountController.start(url, "bearer " + UserPreferencesManager.getInstance(context).getAccessToken(), productCount);
+                }
             }
 
         });

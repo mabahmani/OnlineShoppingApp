@@ -96,8 +96,7 @@ public class CartFargment extends Fragment {
 
     private void initialCartList() {
         cartProductsAdapter = new CartProductsAdapter(
-                cartItemList,
-                "bearer " + UserPreferencesManager.getInstance(getActivity()).getAccessToken());
+                cartItemList, getActivity());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(cartProductsAdapter);
     }
