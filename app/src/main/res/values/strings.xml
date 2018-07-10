@@ -9,4 +9,8 @@
     <string name="product_img">تصویر محصول</string>
     <string name="add_to_cart">اضافه کردن به سبد خرید</string>
     <string name="count">تعداد</string>
+    <string name="empty_basket">سبد خرید شما خالی است!</string>
+    <string name="checkout">نهایی کردن سفارش</string>
+    <string name="new_address">ادرس جدید</string>
+    <string name="add_address">افزودن ادرس</string>
 </resources>

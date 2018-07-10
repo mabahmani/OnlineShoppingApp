@@ -33,7 +33,7 @@ public class GetCartProductsController {
 
             @Override
             public void onFailure(Call<CartProductsResponse> call, Throwable t) {
-                getCartProductsCallBack.onFailure(t.getCause().toString());
+                getCartProductsCallBack.onFailure(t.toString());
             }
         });
     }

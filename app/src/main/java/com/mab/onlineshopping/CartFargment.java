@@ -1,5 +1,6 @@
 package com.mab.onlineshopping;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.mab.onlineshopping.Data.GetCartProductsController;
 import com.mab.onlineshopping.Data.GetProductInfoController;
@@ -26,6 +29,8 @@ import java.util.List;
 
 public class CartFargment extends Fragment {
     private RecyclerView recyclerView;
+    private TextView emptyCart;
+    private Button checkout;
     private CartProductsAdapter cartProductsAdapter;
     private List<CartItem> cartItemList = new ArrayList<>();
 
@@ -43,9 +48,20 @@ public class CartFargment extends Fragment {
 
         initialCartList();
 
+        checkout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(),AddressActivity.class);
+                startActivity(i);
+            }
+        });
+
         OnlineShoppingApi.GetCartProductsCallBack getCartProductsCallBack = new OnlineShoppingApi.GetCartProductsCallBack() {
             @Override
             public void onResponse(CartProductsResponse cartProductsResponse) {
+                if (cartProductsResponse.getCartProductList().isEmpty()){
+                    emptyCart.setVisibility(View.VISIBLE);
+                }
                 for (final CartProduct cartProduct : cartProductsResponse.getCartProductList()){
                     OnlineShoppingApi.GetProductInfoCallBack getProductInfoCallBack = new OnlineShoppingApi.GetProductInfoCallBack() {
                         @Override
@@ -102,5 +118,7 @@ public class CartFargment extends Fragment {
 
     private void findViews(View view) {
         recyclerView = view.findViewById(R.id.cart_list);
+        emptyCart = view.findViewById(R.id.empty_cart);
+        checkout = view.findViewById(R.id.checkout);
     }
 }

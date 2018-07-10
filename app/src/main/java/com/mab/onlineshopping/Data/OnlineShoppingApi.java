@@ -1,7 +1,10 @@
 package com.mab.onlineshopping.Data;
 
+import com.mab.onlineshopping.Model.AddAddress;
+import com.mab.onlineshopping.Model.AddAddressResponse;
 import com.mab.onlineshopping.Model.AddProduct;
 import com.mab.onlineshopping.Model.AddToCartResponse;
+import com.mab.onlineshopping.Model.AddressResponse;
 import com.mab.onlineshopping.Model.CartProductsResponse;
 import com.mab.onlineshopping.Model.ChangeProductCountResponse;
 import com.mab.onlineshopping.Model.ProductCount;
@@ -27,7 +30,6 @@ import retrofit2.http.Url;
 
 public interface OnlineShoppingApi {
     String BASE_URL = "https://api.backtory.com/";
-    String itemInCartId = null;
 
     @Headers({
             "X-Backtory-Authentication-Id:5a154d2fe4b03ffa0436a534",
@@ -92,6 +94,22 @@ public interface OnlineShoppingApi {
             );
 
 
+    @Headers("X-Backtory-Object-Storage-Id:5a154d2fe4b03ffa0436a535")
+    @POST("object-storage/classes/Address")
+    Call<AddAddressResponse> addAddress(
+            @Header("Authorization") String accessToken,
+            @Body AddAddress addAddress
+            );
+
+
+    @Headers("X-Backtory-Object-Storage-Id:5a154d2fe4b03ffa0436a535")
+    @POST("object-storage/classes/query/Address")
+    Call<AddressResponse> getAddresses(
+            @Header("Authorization") String accessToken,
+            @Body UserUsername userUsername
+            );
+
+
     interface LoginUserCallBack{
         void onResponse(boolean successful, String errorDescription, TokenResponse tokenResponse );
         void onFailure(String cause);
@@ -129,6 +147,16 @@ public interface OnlineShoppingApi {
 
     interface DeleteItemFromCartCallBack{
         void onResponse(ResponseBody responseBody);
+        void onFailure(String cause);
+    }
+
+    interface AddAddressCallBack{
+        void onResponse(AddAddressResponse addAddressResponse);
+        void onFailure(String cause);
+    }
+
+    interface GetAddressesCallBack{
+        void onResponse(AddressResponse addressResponse);
         void onFailure(String cause);
     }
 }
