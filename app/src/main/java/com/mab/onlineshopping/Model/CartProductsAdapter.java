@@ -9,8 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mab.onlineshopping.Data.ChangeProductCountController;
+import com.mab.onlineshopping.Data.DeleteItemFromCartController;
 import com.mab.onlineshopping.Data.OnlineShoppingApi;
 import com.mab.onlineshopping.Data.UserPreferencesManager;
 import com.mab.onlineshopping.R;
@@ -18,6 +20,8 @@ import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 import java.util.List;
+
+import okhttp3.ResponseBody;
 
 public class CartProductsAdapter extends RecyclerView.Adapter<CartProductsAdapter.ViewHolder> {
 
@@ -37,7 +41,7 @@ public class CartProductsAdapter extends RecyclerView.Adapter<CartProductsAdapte
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         final CartItem product = cartItemList.get(position);
         Picasso.get().load(product.getPhotoUrl()).into(holder.productImg);
         holder.productTitle.setText(product.getName());
@@ -78,8 +82,28 @@ public class CartProductsAdapter extends RecyclerView.Adapter<CartProductsAdapte
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             switch (i){
-                                case DialogInterface.BUTTON_POSITIVE:
+                                case DialogInterface.BUTTON_POSITIVE: {
+                                    OnlineShoppingApi.DeleteItemFromCartCallBack deleteItemFromCartCallBack = new OnlineShoppingApi.DeleteItemFromCartCallBack() {
+                                        @Override
+                                        public void onResponse(ResponseBody responseBody) {
+                                            Toast.makeText(context,"محصول با موفقیت حذف شد!",Toast.LENGTH_LONG).show();
+                                            cartItemList.remove(position);
+                                            notifyDataSetChanged();
+                                        }
+
+                                        @Override
+                                        public void onFailure(String cause) {
+
+                                        }
+                                    };
+                                    String url = "https://api.backtory.com/object-storage/classes/Basket/"+product.getCartItemId();
+                                    DeleteItemFromCartController deleteItemFromCartController = new DeleteItemFromCartController(deleteItemFromCartCallBack);
+                                    deleteItemFromCartController.start(
+                                            url,
+                                            "bearer " + UserPreferencesManager.getInstance(context).getAccessToken()
+                                            );
                                     break;
+                                }
                                 case DialogInterface.BUTTON_NEGATIVE:
                                     break;
                             }

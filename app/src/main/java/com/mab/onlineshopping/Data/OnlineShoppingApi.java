@@ -12,8 +12,11 @@ import com.mab.onlineshopping.Model.User;
 import com.mab.onlineshopping.Model.UserResponse;
 import com.mab.onlineshopping.Model.UserUsername;
 
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Header;
@@ -81,6 +84,14 @@ public interface OnlineShoppingApi {
             );
 
 
+    @Headers("X-Backtory-Object-Storage-Id:5a154d2fe4b03ffa0436a535")
+    @DELETE
+    Call<ResponseBody> deleteItemFromCart(
+            @Url String url,
+            @Header("Authorization") String accessToken
+            );
+
+
     interface LoginUserCallBack{
         void onResponse(boolean successful, String errorDescription, TokenResponse tokenResponse );
         void onFailure(String cause);
@@ -113,6 +124,11 @@ public interface OnlineShoppingApi {
 
     interface ChangeProductCountCallBack{
         void onResponse(ChangeProductCountResponse changeProductCountResponse);
+        void onFailure(String cause);
+    }
+
+    interface DeleteItemFromCartCallBack{
+        void onResponse(ResponseBody responseBody);
         void onFailure(String cause);
     }
 }
