@@ -8,6 +8,7 @@ import com.mab.onlineshopping.Model.AddressResponse;
 import com.mab.onlineshopping.Model.CartProductsResponse;
 import com.mab.onlineshopping.Model.ChangeProductCountResponse;
 import com.mab.onlineshopping.Model.Checkout;
+import com.mab.onlineshopping.Model.OrdersResponse;
 import com.mab.onlineshopping.Model.ProductCount;
 import com.mab.onlineshopping.Model.ProductId;
 import com.mab.onlineshopping.Model.ProductsResponse;
@@ -131,6 +132,13 @@ public interface OnlineShoppingApi {
             @Header("Authorization") String accessToken
             );
 
+    @Headers("X-Backtory-Object-Storage-Id:5a154d2fe4b03ffa0436a535")
+    @POST("object-storage/classes/query/Order")
+    Call<OrdersResponse> getOrdersHistory(
+            @Header("Authorization") String accessToken,
+            @Body UserUsername userUsername
+            );
+
 
 
 
@@ -196,6 +204,11 @@ public interface OnlineShoppingApi {
 
     interface DeleteAllCartItemsCallBack{
         void onResponse(ResponseBody responseBody);
+        void onFailure(String cause);
+    }
+
+    interface GetOrdersHistoryCallBack{
+        void onResponse(OrdersResponse ordersResponse);
         void onFailure(String cause);
     }
 }

@@ -42,6 +42,12 @@ public class ProductsActivity extends AppCompatActivity {
                             .addToBackStack(null)
                             .commit();
                  }
+                 else if(item.getItemId() == R.id.shopping_history){
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.frame,new OrdersHistoryFragment(),null)
+                            .addToBackStack(null)
+                            .commit();
+                }
                 return false;
             }
         });

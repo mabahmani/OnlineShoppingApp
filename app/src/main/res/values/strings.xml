@@ -18,4 +18,8 @@
     <string name="total_price">قیمت کل:</string>
     <string name="select_address">آدرس مقصد را انتخاب کنید:</string>
     <string name="address">محل تحویل:</string>
+    <string name="no_histoy">تا حالا سفارشی ثبت نشده است!</string>
+    <string name="order_id">شناسه سفارش:</string>
+    <string name="order_date">تاریخ سفارش:</string>
+    <string name="order_price">مبلغ سفارش:</string>
 </resources>
