@@ -110,6 +110,14 @@ public interface OnlineShoppingApi {
             );
 
 
+    @Headers("X-Backtory-Object-Storage-Id:5a154d2fe4b03ffa0436a535")
+    @DELETE
+    Call<ResponseBody> deleteAddress(
+            @Url String url,
+            @Header("Authorization") String accessToken
+            );
+
+
     interface LoginUserCallBack{
         void onResponse(boolean successful, String errorDescription, TokenResponse tokenResponse );
         void onFailure(String cause);
@@ -157,6 +165,11 @@ public interface OnlineShoppingApi {
 
     interface GetAddressesCallBack{
         void onResponse(AddressResponse addressResponse);
+        void onFailure(String cause);
+    }
+
+    interface DeleteAddressCallBack{
+        void onResponse(ResponseBody responseBody);
         void onFailure(String cause);
     }
 }

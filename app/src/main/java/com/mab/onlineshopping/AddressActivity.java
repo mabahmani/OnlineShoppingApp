@@ -41,7 +41,7 @@ public class AddressActivity extends AppCompatActivity {
          OnlineShoppingApi.GetAddressesCallBack getAddressesCallBack = new OnlineShoppingApi.GetAddressesCallBack() {
             @Override
             public void onResponse(AddressResponse addressResponse) {
-                addressesAdapter = new AddressesAdapter(addressList);
+                addressesAdapter = new AddressesAdapter(addressList,getApplicationContext());
                 addressesAdapter.notifyDataSetChanged();
                 addressList.addAll(addressResponse.getAddressList());
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
