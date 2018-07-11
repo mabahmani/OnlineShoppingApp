@@ -27,12 +27,14 @@ import com.mab.onlineshopping.Model.ProductsResponse;
 import com.mab.onlineshopping.Model.UserUsername;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CartFargment extends Fragment {
     private RecyclerView recyclerView;
     private TextView emptyCart;
+    private TextView totalPriceTxt;
     private Button checkout;
 
 
@@ -57,6 +59,7 @@ public class CartFargment extends Fragment {
         checkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent i = new Intent(getActivity(),AddressActivity.class);
                 i.putExtra("totalPrice",totalPrice);
                 startActivity(i);
@@ -84,6 +87,9 @@ public class CartFargment extends Fragment {
                             cartProductsAdapter.notifyDataSetChanged();
 
                             totalPrice += productsResponse.getProducts().get(0).getPrice() * cartProduct.getCount();
+//                            DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
+//                            String decimalFormatPrice = decimalFormat.format(totalPrice);
+//                            totalPriceTxt.setText(String.valueOf(decimalFormatPrice));
                         }
 
                         @Override
@@ -119,15 +125,23 @@ public class CartFargment extends Fragment {
     }
 
     private void initialCartList() {
-        cartProductsAdapter = new CartProductsAdapter(
-                cartItemList, getActivity());
+        cartProductsAdapter = new CartProductsAdapter(cartItemList, getActivity(),this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(cartProductsAdapter);
+    }
+
+    public void addTotalPrice(int price){
+        totalPrice += price;
+    }
+
+    public void removeTotalPrice(int price){
+        totalPrice -= price;
     }
 
     private void findViews(View view) {
         recyclerView = view.findViewById(R.id.cart_list);
         emptyCart = view.findViewById(R.id.empty_cart);
         checkout = view.findViewById(R.id.checkout);
+        totalPriceTxt = view.findViewById(R.id.total_price);
     }
 }

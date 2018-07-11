@@ -1,14 +1,12 @@
 package com.mab.onlineshopping;
 
-import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.mab.onlineshopping.Data.AddAddressController;
 import com.mab.onlineshopping.Data.GetAddressesController;
@@ -19,8 +17,6 @@ import com.mab.onlineshopping.Model.AddAddressResponse;
 import com.mab.onlineshopping.Model.Address;
 import com.mab.onlineshopping.Model.AddressResponse;
 import com.mab.onlineshopping.Model.AddressesAdapter;
-import com.mab.onlineshopping.Model.CheckoutProduct;
-import com.mab.onlineshopping.Model.RecyclerTouchListener;
 import com.mab.onlineshopping.Model.UserUsername;
 
 import java.util.ArrayList;
@@ -48,25 +44,9 @@ public class AddressActivity extends AppCompatActivity {
          OnlineShoppingApi.GetAddressesCallBack getAddressesCallBack = new OnlineShoppingApi.GetAddressesCallBack() {
             @Override
             public void onResponse(AddressResponse addressResponse) {
-                addressesAdapter = new AddressesAdapter(addressList,getApplicationContext());
+                addressesAdapter = new AddressesAdapter(addressList,getApplicationContext(),totalPrice);
                 addressesAdapter.notifyDataSetChanged();
                 addressList.addAll(addressResponse.getAddressList());
-
-                recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
-                    @Override
-                    public void onClick(View view, int position) {
-                        Intent i = new Intent(AddressActivity.this,CheckoutActivity.class);
-                        i.putExtra("addressId",addressList.get(position).getId());
-                        i.putExtra("totalPrice",totalPrice);
-                        startActivity(i);
-                    }
-
-                    @Override
-                    public void onLongClick(View view, int position) {
-
-                    }
-                }));
-
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 recyclerView.setAdapter(addressesAdapter);
             }

@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mab.onlineshopping.CartFargment;
 import com.mab.onlineshopping.Data.ChangeProductCountController;
 import com.mab.onlineshopping.Data.DeleteItemFromCartController;
 import com.mab.onlineshopping.Data.OnlineShoppingApi;
@@ -27,10 +28,12 @@ public class CartProductsAdapter extends RecyclerView.Adapter<CartProductsAdapte
 
     private List<CartItem> cartItemList;
     private Context context;
+    private CartFargment cartFargment;
 
-    public CartProductsAdapter(List<CartItem> cartItemList,Context context) {
+    public CartProductsAdapter(List<CartItem> cartItemList, Context context, CartFargment cartFargment) {
         this.cartItemList = cartItemList;
         this.context = context;
+        this.cartFargment = cartFargment;
     }
 
     @Override
@@ -60,6 +63,7 @@ public class CartProductsAdapter extends RecyclerView.Adapter<CartProductsAdapte
                         holder.productCount.setText(String.valueOf(product.getCount()));
                         decimalFormatPrice[0] = decimalFormat.format(product.getPrice() * product.getCount());
                         holder.productPrice.setText(decimalFormatPrice[0]);
+                        cartFargment.addTotalPrice(product.getPrice());
                     }
 
                     @Override
@@ -123,6 +127,7 @@ public class CartProductsAdapter extends RecyclerView.Adapter<CartProductsAdapte
                             holder.productCount.setText(String.valueOf(product.getCount()));
                             decimalFormatPrice[0] = decimalFormat.format(product.getPrice() * product.getCount());
                             holder.productPrice.setText(decimalFormatPrice[0]);
+                            cartFargment.removeTotalPrice(product.getPrice());
                         }
 
                         @Override

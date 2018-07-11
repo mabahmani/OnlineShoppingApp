@@ -1,6 +1,7 @@
 package com.mab.onlineshopping.Model;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mab.onlineshopping.CheckoutActivity;
 import com.mab.onlineshopping.Data.DeleteAddressController;
 import com.mab.onlineshopping.Data.OnlineShoppingApi;
 import com.mab.onlineshopping.Data.UserPreferencesManager;
@@ -20,10 +22,12 @@ import okhttp3.ResponseBody;
 public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.ViewHolder> {
     private List<Address> addressList;
     private Context context;
+    private int totalPrice;
 
-    public AddressesAdapter(List<Address> addressList, Context context) {
+    public AddressesAdapter(List<Address> addressList, Context context,int totalPrice) {
         this.addressList = addressList;
         this.context = context;
+        this.totalPrice = totalPrice;
     }
 
     @Override
@@ -35,6 +39,18 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.addressTextView.setText(addressList.get(position).getDetail());
+        holder.addressTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(context, CheckoutActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                i.putExtra("addressId",addressList.get(position).getId());
+                i.putExtra("totalPrice",totalPrice);
+                i.putExtra("addressDetail",addressList.get(position).getDetail());
+                context.startActivity(i);
+            }
+        });
+
         holder.deleteAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

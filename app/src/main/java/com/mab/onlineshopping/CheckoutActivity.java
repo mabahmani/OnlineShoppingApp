@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mab.onlineshopping.Data.CheckoutController;
@@ -16,6 +17,7 @@ import com.mab.onlineshopping.Model.Checkout;
 import com.mab.onlineshopping.Model.CheckoutProduct;
 import com.mab.onlineshopping.Model.UserUsername;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,9 +25,13 @@ import okhttp3.ResponseBody;
 
 public class CheckoutActivity extends AppCompatActivity {
     private Button checkoutBtn;
+    private TextView totalPriceTxt;
+    private TextView productCountTxt;
+    private TextView addressTxt;
 
     private Checkout checkout = new Checkout();
     private int totalPrice;
+    private int totalCount = 0;
     private String addressId;
     private List<CheckoutProduct> products = new ArrayList<>();
 
@@ -34,8 +40,9 @@ public class CheckoutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
 
-        getCartProductsInfo();
         findViews();
+        getCartProductsInfo();
+        setInfo();
 
         checkoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +68,13 @@ public class CheckoutActivity extends AppCompatActivity {
         });
     }
 
+    private void setInfo() {
+        DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
+        String decimalFormatPrice = decimalFormat.format(totalPrice);
+        totalPriceTxt.setText(decimalFormatPrice);
+        addressTxt.setText(getIntent().getStringExtra("addressDetail"));
+    }
+
     private void getCartProductsInfo() {
         totalPrice = getIntent().getIntExtra("totalPrice",0);
         addressId = getIntent().getStringExtra("addressId");
@@ -73,6 +87,8 @@ public class CheckoutActivity extends AppCompatActivity {
                     checkoutProduct.setCount(cartProduct.getCount());
                     checkoutProduct.setProductId(cartProduct.getProductId());
                     products.add(checkoutProduct);
+                    totalCount += cartProduct.getCount();
+                    productCountTxt.setText(String.valueOf(totalCount));
                 }
 
                 checkout.setAddressId(addressId);
@@ -99,5 +115,8 @@ public class CheckoutActivity extends AppCompatActivity {
 
     private void findViews() {
         checkoutBtn = findViewById(R.id.checkout);
+        totalPriceTxt = findViewById(R.id.total_price);
+        productCountTxt = findViewById(R.id.product_count);
+        addressTxt = findViewById(R.id.product_address);
     }
 }
