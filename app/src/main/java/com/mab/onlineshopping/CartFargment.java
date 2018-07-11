@@ -71,6 +71,7 @@ public class CartFargment extends Fragment {
             public void onResponse(CartProductsResponse cartProductsResponse) {
                 if (cartProductsResponse.getCartProductList().isEmpty()){
                     emptyCart.setVisibility(View.VISIBLE);
+                    checkout.setEnabled(false);
                 }
                 for (final CartProduct cartProduct : cartProductsResponse.getCartProductList()){
                     OnlineShoppingApi.GetProductInfoCallBack getProductInfoCallBack = new OnlineShoppingApi.GetProductInfoCallBack() {
@@ -87,9 +88,6 @@ public class CartFargment extends Fragment {
                             cartProductsAdapter.notifyDataSetChanged();
 
                             totalPrice += productsResponse.getProducts().get(0).getPrice() * cartProduct.getCount();
-//                            DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
-//                            String decimalFormatPrice = decimalFormat.format(totalPrice);
-//                            totalPriceTxt.setText(String.valueOf(decimalFormatPrice));
                         }
 
                         @Override

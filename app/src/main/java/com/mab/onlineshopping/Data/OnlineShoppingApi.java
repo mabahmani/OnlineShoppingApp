@@ -125,6 +125,12 @@ public interface OnlineShoppingApi {
             @Body Checkout checkout
             );
 
+    @Headers("X-Backtory-Object-Storage-Id:5a154d2fe4b03ffa0436a535")
+    @DELETE("object-storage/classes/Basket")
+    Call<ResponseBody> deleteAllCartItems(
+            @Header("Authorization") String accessToken
+            );
+
 
 
 
@@ -184,6 +190,11 @@ public interface OnlineShoppingApi {
     }
 
     interface CheckoutCallBack{
+        void onResponse(ResponseBody responseBody);
+        void onFailure(String cause);
+    }
+
+    interface DeleteAllCartItemsCallBack{
         void onResponse(ResponseBody responseBody);
         void onFailure(String cause);
     }

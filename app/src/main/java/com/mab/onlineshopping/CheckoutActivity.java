@@ -8,6 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mab.onlineshopping.Data.CheckoutController;
+import com.mab.onlineshopping.Data.DeleteAllCartItemsController;
 import com.mab.onlineshopping.Data.GetCartProductsController;
 import com.mab.onlineshopping.Data.OnlineShoppingApi;
 import com.mab.onlineshopping.Data.UserPreferencesManager;
@@ -64,6 +65,22 @@ public class CheckoutActivity extends AppCompatActivity {
                         "bearer "+ UserPreferencesManager.getInstance(getApplicationContext()).getAccessToken(),
                         checkout
                 );
+
+                OnlineShoppingApi.DeleteAllCartItemsCallBack deleteAllCartItemsCallBack = new OnlineShoppingApi.DeleteAllCartItemsCallBack() {
+                    @Override
+                    public void onResponse(ResponseBody responseBody) {
+                        Toast.makeText(getApplicationContext(),"سبد خالی شد!",Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onFailure(String cause) {
+
+                    }
+                };
+
+                DeleteAllCartItemsController deleteAllCartItemsController = new DeleteAllCartItemsController(deleteAllCartItemsCallBack);
+                deleteAllCartItemsController.start(
+                        "bearer "+ UserPreferencesManager.getInstance(getApplicationContext()).getAccessToken());
             }
         });
     }
