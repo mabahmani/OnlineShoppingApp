@@ -1,5 +1,6 @@
 package com.mab.onlineshopping;
 
+import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +19,8 @@ import com.mab.onlineshopping.Model.AddAddressResponse;
 import com.mab.onlineshopping.Model.Address;
 import com.mab.onlineshopping.Model.AddressResponse;
 import com.mab.onlineshopping.Model.AddressesAdapter;
+import com.mab.onlineshopping.Model.CheckoutProduct;
+import com.mab.onlineshopping.Model.RecyclerTouchListener;
 import com.mab.onlineshopping.Model.UserUsername;
 
 import java.util.ArrayList;
@@ -30,13 +33,17 @@ public class AddressActivity extends AppCompatActivity {
 
     private AddressesAdapter addressesAdapter;
     private List<Address> addressList = new ArrayList<>();
+    private int totalPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address);
 
+        totalPrice = getIntent().getIntExtra("totalPrice", 0);
+
         findViews();
+
 
          OnlineShoppingApi.GetAddressesCallBack getAddressesCallBack = new OnlineShoppingApi.GetAddressesCallBack() {
             @Override
@@ -44,6 +51,22 @@ public class AddressActivity extends AppCompatActivity {
                 addressesAdapter = new AddressesAdapter(addressList,getApplicationContext());
                 addressesAdapter.notifyDataSetChanged();
                 addressList.addAll(addressResponse.getAddressList());
+
+                recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
+                    @Override
+                    public void onClick(View view, int position) {
+                        Intent i = new Intent(AddressActivity.this,CheckoutActivity.class);
+                        i.putExtra("addressId",addressList.get(position).getId());
+                        i.putExtra("totalPrice",totalPrice);
+                        startActivity(i);
+                    }
+
+                    @Override
+                    public void onLongClick(View view, int position) {
+
+                    }
+                }));
+
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 recyclerView.setAdapter(addressesAdapter);
             }
@@ -110,6 +133,7 @@ public class AddressActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void findViews() {
         addAddress = findViewById(R.id.add_new_address);

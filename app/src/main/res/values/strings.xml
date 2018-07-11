@@ -14,4 +14,5 @@
     <string name="new_address">ادرس جدید</string>
     <string name="add_address">افزودن ادرس</string>
     <string name="remove_address">remove_address</string>
+    <string name="final_chaekout">ثبت سفارش</string>
 </resources>

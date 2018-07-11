@@ -20,10 +20,13 @@ import com.mab.onlineshopping.Model.CartItem;
 import com.mab.onlineshopping.Model.CartProduct;
 import com.mab.onlineshopping.Model.CartProductsAdapter;
 import com.mab.onlineshopping.Model.CartProductsResponse;
+import com.mab.onlineshopping.Model.Checkout;
+import com.mab.onlineshopping.Model.CheckoutProduct;
 import com.mab.onlineshopping.Model.ProductId;
 import com.mab.onlineshopping.Model.ProductsResponse;
 import com.mab.onlineshopping.Model.UserUsername;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,8 +34,11 @@ public class CartFargment extends Fragment {
     private RecyclerView recyclerView;
     private TextView emptyCart;
     private Button checkout;
+
+
     private CartProductsAdapter cartProductsAdapter;
     private List<CartItem> cartItemList = new ArrayList<>();
+    private int totalPrice = 0;
 
     @Nullable
     @Override
@@ -52,6 +58,7 @@ public class CartFargment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(),AddressActivity.class);
+                i.putExtra("totalPrice",totalPrice);
                 startActivity(i);
             }
         });
@@ -75,6 +82,8 @@ public class CartFargment extends Fragment {
                             cartItem.setCartItemId(cartProduct.getId());
                             cartItemList.add(cartItem);
                             cartProductsAdapter.notifyDataSetChanged();
+
+                            totalPrice += productsResponse.getProducts().get(0).getPrice() * cartProduct.getCount();
                         }
 
                         @Override

@@ -7,6 +7,7 @@ import com.mab.onlineshopping.Model.AddToCartResponse;
 import com.mab.onlineshopping.Model.AddressResponse;
 import com.mab.onlineshopping.Model.CartProductsResponse;
 import com.mab.onlineshopping.Model.ChangeProductCountResponse;
+import com.mab.onlineshopping.Model.Checkout;
 import com.mab.onlineshopping.Model.ProductCount;
 import com.mab.onlineshopping.Model.ProductId;
 import com.mab.onlineshopping.Model.ProductsResponse;
@@ -109,13 +110,22 @@ public interface OnlineShoppingApi {
             @Body UserUsername userUsername
             );
 
-
     @Headers("X-Backtory-Object-Storage-Id:5a154d2fe4b03ffa0436a535")
     @DELETE
     Call<ResponseBody> deleteAddress(
             @Url String url,
             @Header("Authorization") String accessToken
             );
+
+
+    @Headers("X-Backtory-Object-Storage-Id:5a154d2fe4b03ffa0436a535")
+    @POST("object-storage/classes/Order")
+    Call<ResponseBody> checkout(
+            @Header("Authorization") String accessToken,
+            @Body Checkout checkout
+            );
+
+
 
 
     interface LoginUserCallBack{
@@ -169,6 +179,11 @@ public interface OnlineShoppingApi {
     }
 
     interface DeleteAddressCallBack{
+        void onResponse(ResponseBody responseBody);
+        void onFailure(String cause);
+    }
+
+    interface CheckoutCallBack{
         void onResponse(ResponseBody responseBody);
         void onFailure(String cause);
     }
