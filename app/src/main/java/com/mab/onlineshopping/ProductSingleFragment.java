@@ -59,16 +59,6 @@ public class ProductSingleFragment extends Fragment {
         toman.setVisibility(View.INVISIBLE);
         addToCart.setVisibility(View.INVISIBLE);
 
-        final Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_forward_black_24dp);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().onBackPressed();
-                toolbar.setNavigationIcon(null);
-            }
-        });
-
         OnlineShoppingApi.GetProductInfoCallBack getProductInfoCallBack = new OnlineShoppingApi.GetProductInfoCallBack() {
             @Override
             public void onResponse(ProductsResponse productsResponse) {
