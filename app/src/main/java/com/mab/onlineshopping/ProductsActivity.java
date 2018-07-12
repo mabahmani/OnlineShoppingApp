@@ -67,7 +67,9 @@ public class ProductsActivity extends AppCompatActivity {
                                 case DialogInterface.BUTTON_POSITIVE: {
                                     UserPreferencesManager.getInstance(getApplicationContext()).clear();
                                     Intent intent = new Intent(ProductsActivity.this,MainActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(intent);
+                                    finish();
                                     break;
                                 }
                                 case DialogInterface.BUTTON_NEGATIVE:
