@@ -11,6 +11,9 @@ import android.support.v7.widget.AppCompatButton;
 import android.view.View;
 import android.widget.Toast;
 
+import com.mab.onlineshopping.Data.UserPreferencesManager;
+import com.mab.onlineshopping.Model.Product;
+
 public class MainActivity extends AppCompatActivity {
 
     private  AppCompatButton signIn;
@@ -23,25 +26,32 @@ public class MainActivity extends AppCompatActivity {
 
         findViews();
 
-        signIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this,SignInActivity.class);
-                startActivity(i);
-            }
-        });
-        signUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this,SignUpActivity.class);
-                startActivity(i);
-            }
-        });
+        if (UserPreferencesManager.getInstance(getApplicationContext()).getAccessToken() == null) {
 
-        LocalBroadcastManager.getInstance(MainActivity.this).registerReceiver(
-                broadcastReceiver,new IntentFilter("login")
-        );
+            signIn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(MainActivity.this, SignInActivity.class);
+                    startActivity(i);
+                }
+            });
+            signUp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(MainActivity.this, SignUpActivity.class);
+                    startActivity(i);
+                }
+            });
 
+            LocalBroadcastManager.getInstance(MainActivity.this).registerReceiver(
+                    broadcastReceiver, new IntentFilter("login")
+            );
+        }
+
+        else {
+            Intent i = new Intent(MainActivity.this, ProductsActivity.class);
+            startActivity(i);
+        }
     }
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {

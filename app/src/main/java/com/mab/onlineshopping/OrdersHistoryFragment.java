@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.mab.onlineshopping.Data.GetOrdersHistoryController;
@@ -20,6 +21,7 @@ import com.mab.onlineshopping.Model.UserUsername;
 public class OrdersHistoryFragment extends android.support.v4.app.Fragment {
     private RecyclerView recyclerView;
     private OrdersHistoryAdapter ordersHistoryAdapter;
+    private ProgressBar progressBar;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -30,10 +32,12 @@ public class OrdersHistoryFragment extends android.support.v4.app.Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         findViews(view);
+        progressBar.setVisibility(View.VISIBLE);
 
         OnlineShoppingApi.GetOrdersHistoryCallBack getOrdersHistoryCallBack = new OnlineShoppingApi.GetOrdersHistoryCallBack() {
             @Override
             public void onResponse(OrdersResponse ordersResponse) {
+                progressBar.setVisibility(View.INVISIBLE);
                 ordersHistoryAdapter = new OrdersHistoryAdapter(ordersResponse.getOrderList());
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 recyclerView.setAdapter(ordersHistoryAdapter);
@@ -56,5 +60,6 @@ public class OrdersHistoryFragment extends android.support.v4.app.Fragment {
 
     private void findViews(View view) {
         recyclerView = view.findViewById(R.id.history_list);
+        progressBar = view.findViewById(R.id.progress_bar);
     }
 }

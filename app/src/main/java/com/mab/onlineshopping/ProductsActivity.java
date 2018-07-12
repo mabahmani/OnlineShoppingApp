@@ -1,5 +1,8 @@
 package com.mab.onlineshopping;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,9 +10,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.mab.onlineshopping.Data.DeleteItemFromCartController;
 import com.mab.onlineshopping.Data.GetProductsController;
 import com.mab.onlineshopping.Data.OnlineShoppingApi;
 import com.mab.onlineshopping.Data.UserPreferencesManager;
@@ -18,8 +23,11 @@ import com.mab.onlineshopping.Model.ProductsAdapter;
 import com.mab.onlineshopping.Model.ProductsResponse;
 import com.mab.onlineshopping.Model.RecyclerTouchListener;
 
+import okhttp3.ResponseBody;
+
 public class ProductsActivity extends AppCompatActivity {
 
+    private ProgressBar progressBar;
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     private ProductsAdapter productsAdapter;
@@ -30,6 +38,8 @@ public class ProductsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_products);
 
         findViews();
+
+        progressBar.setVisibility(View.VISIBLE);
 
         toolbar.setTitle("فروشگاه آنلاین");
         toolbar.inflateMenu(R.menu.toolbar_menu);
@@ -48,6 +58,29 @@ public class ProductsActivity extends AppCompatActivity {
                             .addToBackStack(null)
                             .commit();
                 }
+
+                else if(item.getItemId() == R.id.user_logout){
+                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            switch (i){
+                                case DialogInterface.BUTTON_POSITIVE: {
+                                    UserPreferencesManager.getInstance(getApplicationContext()).clear();
+                                    Intent intent = new Intent(ProductsActivity.this,MainActivity.class);
+                                    startActivity(intent);
+                                    break;
+                                }
+                                case DialogInterface.BUTTON_NEGATIVE:
+                                    break;
+                            }
+                        }
+                    };
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ProductsActivity.this);
+                    builder.setMessage("میخواهید از حساب کاربری خود خارج شوید؟")
+                            .setPositiveButton("اره",dialogClickListener)
+                            .setNegativeButton("بی خیال",dialogClickListener).show();
+                }
                 return false;
             }
         });
@@ -55,6 +88,7 @@ public class ProductsActivity extends AppCompatActivity {
         OnlineShoppingApi.GetProductsCallBack getProductsCallBack = new OnlineShoppingApi.GetProductsCallBack() {
             @Override
             public void onResponse(ProductsResponse productsResponse) {
+                progressBar.setVisibility(View.INVISIBLE);
                 initialProductsList(productsResponse);
             }
 
@@ -107,5 +141,6 @@ public class ProductsActivity extends AppCompatActivity {
     private void findViews() {
         toolbar = findViewById(R.id.toolbar);
         recyclerView = findViewById(R.id.product_list);
+        progressBar = findViewById(R.id.progress_bar);
     }
 }

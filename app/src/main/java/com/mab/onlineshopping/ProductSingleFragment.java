@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +33,9 @@ public class ProductSingleFragment extends Fragment {
     private TextView    productTitle;
     private TextView    productPrice;
     private TextView    productDesc;
+    private TextView    toman;
     private Button      addToCart;
+    private ProgressBar progressBar;
 
     private ProductId productId;
     private String accessToken;
@@ -52,6 +55,10 @@ public class ProductSingleFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         findViews(view);
 
+        progressBar.setVisibility(View.VISIBLE);
+        toman.setVisibility(View.INVISIBLE);
+        addToCart.setVisibility(View.INVISIBLE);
+
         final Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_forward_black_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -65,6 +72,9 @@ public class ProductSingleFragment extends Fragment {
         OnlineShoppingApi.GetProductInfoCallBack getProductInfoCallBack = new OnlineShoppingApi.GetProductInfoCallBack() {
             @Override
             public void onResponse(ProductsResponse productsResponse) {
+                progressBar.setVisibility(View.INVISIBLE);
+                toman.setVisibility(View.VISIBLE);
+                addToCart.setVisibility(View.VISIBLE);
                 bindViews(productsResponse.getProducts().get(0));
             }
 
@@ -118,5 +128,7 @@ public class ProductSingleFragment extends Fragment {
         productPrice = view.findViewById(R.id.product_price);
         productDesc = view.findViewById(R.id.product_desc);
         addToCart = view.findViewById(R.id.add_to_cart_btn);
+        progressBar = view.findViewById(R.id.progress_bar);
+        toman = view.findViewById(R.id.toman);
     }
 }

@@ -6,12 +6,19 @@
         android:id="@+id/shopping_cart"
         android:icon="@drawable/ic_shopping_basket_black_24dp"
         android:title="cart"
-        android:orderInCategory="1"
+        android:orderInCategory="3"
         app:showAsAction="always"/>
     <item
         android:id="@+id/shopping_history"
+        android:orderInCategory="2"
         android:icon="@drawable/ic_history_black_24dp"
         android:title="history"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/user_logout"
+        android:orderInCategory="1"
+        android:icon="@drawable/ic_exit_to_app_black_24dp"
+        android:title="logout"
         app:showAsAction="ifRoom"/>
 
 </menu>

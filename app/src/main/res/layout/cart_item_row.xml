@@ -80,7 +80,7 @@
                     android:paddingRight="3dp"
                     android:gravity="center"
                     android:fontFamily="@font/yekan"
-                    android:text="@string/count"
+                    android:text="@string/count1"
                     android:layout_height="match_parent" />
 
             </LinearLayout>

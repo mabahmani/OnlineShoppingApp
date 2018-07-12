@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.mab.onlineshopping.Data.GetCartProductsController;
@@ -36,7 +37,7 @@ public class CartFargment extends Fragment {
     private TextView emptyCart;
     private TextView totalPriceTxt;
     private Button checkout;
-
+    private ProgressBar progressBar;
 
     private CartProductsAdapter cartProductsAdapter;
     private List<CartItem> cartItemList = new ArrayList<>();
@@ -53,7 +54,8 @@ public class CartFargment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         findViews(view);
-
+        progressBar.setVisibility(View.VISIBLE);
+        checkout.setVisibility(View.INVISIBLE);
         initialCartList();
 
         checkout.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +71,8 @@ public class CartFargment extends Fragment {
         OnlineShoppingApi.GetCartProductsCallBack getCartProductsCallBack = new OnlineShoppingApi.GetCartProductsCallBack() {
             @Override
             public void onResponse(CartProductsResponse cartProductsResponse) {
+                progressBar.setVisibility(View.INVISIBLE);
+                checkout.setVisibility(View.VISIBLE);
                 if (cartProductsResponse.getCartProductList().isEmpty()){
                     emptyCart.setVisibility(View.VISIBLE);
                     checkout.setEnabled(false);
@@ -141,5 +145,6 @@ public class CartFargment extends Fragment {
         emptyCart = view.findViewById(R.id.empty_cart);
         checkout = view.findViewById(R.id.checkout);
         totalPriceTxt = view.findViewById(R.id.total_price);
+        progressBar = view.findViewById(R.id.progress_bar);
     }
 }

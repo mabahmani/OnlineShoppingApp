@@ -22,4 +22,5 @@
     <string name="order_id">شناسه سفارش:</string>
     <string name="order_date">تاریخ سفارش:</string>
     <string name="order_price">مبلغ سفارش:</string>
+    <string name="count1">تعداد</string>
 </resources>
