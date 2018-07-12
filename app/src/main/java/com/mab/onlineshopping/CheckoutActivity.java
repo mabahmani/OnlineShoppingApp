@@ -1,5 +1,6 @@
 package com.mab.onlineshopping;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -58,6 +59,10 @@ public class CheckoutActivity extends AppCompatActivity {
                         progressBar.setVisibility(View.INVISIBLE);
                         checkoutBtn.setVisibility(View.VISIBLE);
                         Toast.makeText(getApplicationContext(),"ثبت شد!",Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(CheckoutActivity.this,ProductsActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        finish();
                     }
 
                     @Override

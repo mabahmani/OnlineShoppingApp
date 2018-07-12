@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.mab.onlineshopping.Data.UserPreferencesManager;
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     private  AppCompatButton signIn;
     private  AppCompatButton signUp;
+    private ImageView bgImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         findViews();
+        bgImg.setImageDrawable(getApplication().getResources().getDrawable(R.drawable.login_bg));
 
         if (UserPreferencesManager.getInstance(getApplicationContext()).getAccessToken() == null) {
 
@@ -68,5 +71,6 @@ public class MainActivity extends AppCompatActivity {
 
         signIn = findViewById(R.id.sign_in_button);
         signUp = findViewById(R.id.sign_up_button);
+        bgImg = findViewById(R.id.bg_img);
     }
 }

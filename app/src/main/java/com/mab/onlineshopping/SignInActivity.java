@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ public class SignInActivity extends AppCompatActivity {
     private TextInputEditText password;
     private AppCompatButton signIn;
     private ProgressBar progressBar;
+    private ImageView bgImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,7 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
 
         findViews();
+        bgImg.setImageDrawable(getApplication().getResources().getDrawable(R.drawable.login_bg));
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,5 +79,6 @@ public class SignInActivity extends AppCompatActivity {
         signIn = findViewById(R.id.sign_in_button);
         toolbar = findViewById(R.id.toolbar);
         progressBar = findViewById(R.id.progress_bar);
+        bgImg = findViewById(R.id.bg_img);
     }
 }
