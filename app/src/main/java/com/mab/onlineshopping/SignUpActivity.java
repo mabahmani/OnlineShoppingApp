@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.mab.onlineshopping.Data.LoginUserController;
@@ -24,6 +25,7 @@ public class SignUpActivity extends AppCompatActivity {
     private TextInputEditText username;
     private TextInputEditText password;
     private AppCompatButton signUp;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,8 @@ public class SignUpActivity extends AppCompatActivity {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                signUp.setVisibility(View.INVISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
                 register();
             }
         });
@@ -101,5 +105,6 @@ public class SignUpActivity extends AppCompatActivity {
         username = findViewById(R.id.username_et);
         password = findViewById(R.id.password_et);
         signUp = findViewById(R.id.sign_up_button);
+        progressBar = findViewById(R.id.progress_bar);
     }
 }

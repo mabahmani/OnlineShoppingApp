@@ -111,6 +111,20 @@
                 app:layout_constraintTop_toBottomOf="@+id/username"
                 app:layout_constraintRight_toRightOf="parent" />
 
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/login_button"
+                android:text="@string/sign_up"
+                android:textColor="#ffffff"
+                android:alpha="0.7"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/password"
+                android:layout_marginTop="20dp"
+                android:visibility="invisible"
+                app:layout_constraintRight_toRightOf="parent" />
+
         </android.support.constraint.ConstraintLayout>
 
 
