@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.mab.onlineshopping.Data.AddAddressController;
 import com.mab.onlineshopping.Data.GetAddressesController;
@@ -26,6 +27,8 @@ public class AddressActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Button addAddress;
     private TextInputEditText addAddressEt;
+    private ProgressBar progressBar;
+    private ProgressBar mainProgressBar;
 
     private AddressesAdapter addressesAdapter;
     private List<Address> addressList = new ArrayList<>();
@@ -39,11 +42,12 @@ public class AddressActivity extends AppCompatActivity {
         totalPrice = getIntent().getIntExtra("totalPrice", 0);
 
         findViews();
+        mainProgressBar.setVisibility(View.VISIBLE);
 
-
-         OnlineShoppingApi.GetAddressesCallBack getAddressesCallBack = new OnlineShoppingApi.GetAddressesCallBack() {
+        OnlineShoppingApi.GetAddressesCallBack getAddressesCallBack = new OnlineShoppingApi.GetAddressesCallBack() {
             @Override
             public void onResponse(AddressResponse addressResponse) {
+                mainProgressBar.setVisibility(View.INVISIBLE);
                 addressesAdapter = new AddressesAdapter(addressList,getApplicationContext(),totalPrice);
                 addressesAdapter.notifyDataSetChanged();
                 addressList.addAll(addressResponse.getAddressList());
@@ -71,12 +75,16 @@ public class AddressActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
+                addAddress.setVisibility(View.INVISIBLE);
                 OnlineShoppingApi.AddAddressCallBack addAddressCallBack = new OnlineShoppingApi.AddAddressCallBack() {
                     @Override
                     public void onResponse(AddAddressResponse addAddressResponse) {
                         OnlineShoppingApi.GetAddressesCallBack getAddressesCallBack = new OnlineShoppingApi.GetAddressesCallBack() {
                             @Override
                             public void onResponse(AddressResponse addressResponse) {
+                                progressBar.setVisibility(View.INVISIBLE);
+                                addAddress.setVisibility(View.VISIBLE);
                                 addressList.add(0,addressResponse.getAddressList().get(addressResponse.getAddressList().size()-1));
                                 addressesAdapter.notifyDataSetChanged();
                             }
@@ -119,5 +127,7 @@ public class AddressActivity extends AppCompatActivity {
         addAddress = findViewById(R.id.add_new_address);
         addAddressEt = findViewById(R.id.new_address_et);
         recyclerView = findViewById(R.id.address_list);
+        progressBar = findViewById(R.id.progress_bar);
+        mainProgressBar = findViewById(R.id.progress_bar_main);
     }
 }

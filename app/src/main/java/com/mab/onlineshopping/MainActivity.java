@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         else {
             Intent i = new Intent(MainActivity.this, ProductsActivity.class);
             startActivity(i);
+            finish();
         }
     }
 

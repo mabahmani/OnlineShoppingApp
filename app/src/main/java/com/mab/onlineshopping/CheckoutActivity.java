@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ public class CheckoutActivity extends AppCompatActivity {
     private TextView totalPriceTxt;
     private TextView productCountTxt;
     private TextView addressTxt;
+    private ProgressBar progressBar;
 
     private Checkout checkout = new Checkout();
     private int totalPrice;
@@ -48,9 +50,13 @@ public class CheckoutActivity extends AppCompatActivity {
         checkoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
+                checkoutBtn.setVisibility(View.INVISIBLE);
                 OnlineShoppingApi.CheckoutCallBack checkoutCallBack = new OnlineShoppingApi.CheckoutCallBack() {
                     @Override
                     public void onResponse(ResponseBody responseBody) {
+                        progressBar.setVisibility(View.INVISIBLE);
+                        checkoutBtn.setVisibility(View.VISIBLE);
                         Toast.makeText(getApplicationContext(),"ثبت شد!",Toast.LENGTH_LONG).show();
                     }
 
@@ -135,5 +141,6 @@ public class CheckoutActivity extends AppCompatActivity {
         totalPriceTxt = findViewById(R.id.total_price);
         productCountTxt = findViewById(R.id.product_count);
         addressTxt = findViewById(R.id.product_address);
+        progressBar = findViewById(R.id.progress_bar);
     }
 }
